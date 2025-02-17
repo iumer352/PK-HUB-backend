@@ -40,6 +40,10 @@ app.use('/api/hiring-managers', hiringManagerRoutes);
 // Sync database and start server
 const startServer = async () => {
   try {
+    // Force sync all tables
+    await sequelize.sync();
+    console.log('Database synchronized - all tables recreated');
+    
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
