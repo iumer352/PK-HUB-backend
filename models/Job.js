@@ -59,6 +59,11 @@ const Job = sequelize.define('Job', {
             }
         }
     },
+    demandedFor: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'Project need',
+    },
     status: {
         type: DataTypes.STRING,
         allowNull: false,

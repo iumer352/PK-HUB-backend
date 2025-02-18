@@ -50,6 +50,7 @@ exports.updateJob = async (req, res) => {
             keyResponsibilities,
             keySkillsAndCompetencies,
             functionType,
+            demandedFor,
             status 
         } = req.body;
         
@@ -68,6 +69,7 @@ exports.updateJob = async (req, res) => {
             keyResponsibilities,
             keySkillsAndCompetencies,
             functionType,
+            demandedFor,
             status
         });
 
