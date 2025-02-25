@@ -1,0 +1,30 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "berserk",
+    "database": "postgres",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "define": {
+      "timestamps": true,
+      "underscored": true
+    }
+  },
+  "test": {
+    "username": "postgres",
+    "password": "your_password",
+    "database": "pk_hub_test",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "your_password",
+    "database": "pk_hub_prod",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

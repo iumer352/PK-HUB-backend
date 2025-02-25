@@ -339,29 +339,52 @@ exports.scheduleSpecificStage = async (req, res) => {
       });
     }
 
-    // Check if this stage was already completed for this applicant
-    const existingInterview = await Interview.findOne({
+    // Check if there's any pending or failed interview in this stage
+    const existingInterviews = await Interview.findAll({
       where: { applicant_id },
       include: [{
         model: InterviewStage,
         as: 'stages',
-        where: { stage_id: stage.id }
+        where: { 
+          stage_id: stage.id,
+          result: ['pending', 'fail'] // Check for pending or failed interviews
+        }
       }]
     });
 
-    if (existingInterview) {
-      return res.status(400).json({ 
-        message: `${stage_name} was already conducted for this applicant` 
-      });
+    if (existingInterviews.length > 0) {
+      // If there's a pending interview, don't allow scheduling another one
+      const pendingInterview = existingInterviews.find(interview => 
+        interview.stages[0].result === 'pending'
+      );
+      
+      if (pendingInterview) {
+        return res.status(400).json({ 
+          message: `There is already a pending interview for ${stage_name}` 
+        });
+      }
     }
 
-    // Create interview
+    // Get all completed interviews for this stage
+    const completedInterviews = await Interview.findAll({
+      where: { applicant_id },
+      include: [{
+        model: InterviewStage,
+        as: 'stages',
+        where: { 
+          stage_id: stage.id,
+          result: 'pass' // Only check passed interviews
+        }
+      }]
+    });
+
+    // Create interview with round number
     const interview = await Interview.create({
       applicant_id,
       interviewer_id,
       date_time,
       status: 'scheduled',
-      name: stage_name
+      name: stage_name,// Add round number to track multiple interviews
     });
 
     // Create interview stage

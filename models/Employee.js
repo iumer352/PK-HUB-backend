@@ -42,10 +42,13 @@ const Employee = sequelize.define('Employee', {
       'Analyst',
       'Associate',
       'Senior Associate',
+      'Consultant',
+      'Senior Consultant',
       'Assistant Manager',
       'Manager',
       'Manager-1',
       'Senior Manager',
+      'Associate Director',
       'Director'
     ),
     allowNull: false

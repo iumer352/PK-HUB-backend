@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const sequelize = require('./config/database');
 
@@ -13,6 +14,7 @@ const interviewerRoutes = require('./routes/interviewerRoutes');
 const stageLookupRoutes = require('./routes/stageLookupRoutes');
 const timesheetRoutes = require('./routes/timesheetRoutes');
 const hiringManagerRoutes = require('./routes/hiringManagerRoute');
+const authRoutes = require('./routes/authRoutes');
 
 // Import model associations
 require('./models/associations');
@@ -22,7 +24,8 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-// Increase payload size limit to 50MB
+
+app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
@@ -36,6 +39,7 @@ app.use('/api/interviewers', interviewerRoutes);
 app.use('/api/stages', stageLookupRoutes);
 app.use('/api/timesheets', timesheetRoutes);
 app.use('/api/hiring-managers', hiringManagerRoutes);
+app.use('/api/auth', authRoutes);
 
 // Sync database and start server
 const startServer = async () => {
